@@ -20,7 +20,7 @@ public class SetHubCommand implements CommandExecutor {
             Location location = player.getLocation();
             CaptureTheFlag.getInstance().getStorageManager().getConfig().set("hub", location);
             // Send a message to the player
-            player.sendMessage(ChatColor.GREEN + "Teleported to the hub!");
+            player.sendMessage(ChatColor.GREEN + "The hub has been set!");
         } else {
             // Send a message to the console
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Only players can use this command!");
