@@ -57,7 +57,7 @@ public class CaptureTheFlagCommand implements CommandExecutor, TabCompleter {
 
         } else {
             // Send a message to the console
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Only players can use this command!");
+            chatLogger.consoleBad("Only players can use this command!");
         }
 
         // Return true to indicate that the command was successful

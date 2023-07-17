@@ -38,7 +38,7 @@ public class HubCommand implements CommandExecutor {
             chatLogger.chatGood(player, "Teleported to the hub!");
         } else {
             // Send a message to the console
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Only players can use this command!");
+            chatLogger.consoleBad("Only players can use this command!");
         }
         // Return true to indicate that the command was successful
         return true;
