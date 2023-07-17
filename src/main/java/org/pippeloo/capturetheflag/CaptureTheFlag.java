@@ -17,7 +17,7 @@ public final class CaptureTheFlag extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
-        chatLogger = new ChatLogger("[CaptureTheFlag] ");
+        chatLogger = new ChatLogger("[CTF] ");
         registerStorage();
         registerCommands();
 

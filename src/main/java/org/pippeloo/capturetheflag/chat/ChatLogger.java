@@ -1,28 +1,28 @@
 package org.pippeloo.capturetheflag.chat;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
+import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class ChatLogger {
     private final String prefix;
-    private final Color prefixColor;
-    private final Color goodColor;
-    private final Color badColor;
-    private final Color normalColor;
+    private final ChatColor prefixColor;
+    private final ChatColor goodColor;
+    private final ChatColor badColor;
+    private final ChatColor normalColor;
     private final ConsoleCommandSender console;
 
     public ChatLogger(String prefix) {
         this.prefix = prefix;
-        this.prefixColor = Color.WHITE;
-        this.goodColor = Color.GREEN;
-        this.badColor = Color.RED;
-        this.normalColor = Color.WHITE;
+        this.prefixColor = ChatColor.WHITE;
+        this.goodColor = ChatColor.GREEN;
+        this.badColor = ChatColor.RED;
+        this.normalColor = ChatColor.WHITE;
         this.console = Bukkit.getConsoleSender();
     }
 
-    public ChatLogger(String prefix, Color prefixColor, Color goodColor, Color badColor, Color normalColor) {
+    public ChatLogger(String prefix, ChatColor prefixColor, ChatColor goodColor, ChatColor badColor, ChatColor normalColor) {
         this.prefix = prefix;
         this.prefixColor = prefixColor;
         this.goodColor = goodColor;

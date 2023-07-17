@@ -28,6 +28,14 @@ public class CaptureTheFlagCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // Check if a player is sending the command
         if (sender instanceof Player) {
+            // Check if the first and second argument are given
+            if (args.length < 2) {
+                // Send a message to the player
+                chatLogger.chatBad((Player) sender, "No arguments given!");
+                // Return true to indicate that the command was successful
+                return true;
+            }
+
             // Get the first argument
             String firstArgument = args[0];
             // Get the second argument
