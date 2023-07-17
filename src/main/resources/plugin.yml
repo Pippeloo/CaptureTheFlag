@@ -12,3 +12,13 @@ commands:
     description: Set the hub
     usage: /<command>
     permission: ctf.sethub
+  ctf:
+    arguments:
+      setBlueSpawn:
+        description: Set the blue spawn
+        usage: /<command> setBlueSpawn
+        permission: ctf.setBlueSpawn
+      setRedSpawn:
+        description: Set the red spawn
+        usage: /<command> setRedSpawn
+        permission: ctf.setRedSpawn

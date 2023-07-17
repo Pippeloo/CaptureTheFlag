@@ -1,6 +1,7 @@
 package org.pippeloo.capturetheflag;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.pippeloo.capturetheflag.commands.CaptureTheFlagCommand;
 import org.pippeloo.capturetheflag.commands.HubCommand;
 import org.pippeloo.capturetheflag.commands.SetHubCommand;
 import org.pippeloo.capturetheflag.storage.StorageManager;
@@ -30,6 +31,7 @@ public final class CaptureTheFlag extends JavaPlugin {
         // Register the commands
         getCommand("sethub").setExecutor(new SetHubCommand());
         getCommand("hub").setExecutor(new HubCommand());
+        getCommand("ctf").setExecutor(new CaptureTheFlagCommand());
     }
 
     private void registerStorage() {

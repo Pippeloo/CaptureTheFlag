@@ -19,6 +19,8 @@ public class SetHubCommand implements CommandExecutor {
             // Get the player's location and save it to the config
             Location location = player.getLocation();
             CaptureTheFlag.getInstance().getStorageManager().getConfig().set("hub", location);
+            // Save the config
+            CaptureTheFlag.getInstance().getStorageManager().saveConfig();
             // Send a message to the player
             player.sendMessage(ChatColor.GREEN + "The hub has been set!");
         } else {
