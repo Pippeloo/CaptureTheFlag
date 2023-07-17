@@ -8,8 +8,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.pippeloo.capturetheflag.CaptureTheFlag;
+import org.pippeloo.capturetheflag.chat.ChatLogger;
 
 public class SetHubCommand implements CommandExecutor {
+
+    private final ChatLogger chatLogger;
+
+    public SetHubCommand() {
+        this.chatLogger = CaptureTheFlag.getInstance().getChatLogger();
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // Check if a player is sending the command
@@ -22,7 +29,7 @@ public class SetHubCommand implements CommandExecutor {
             // Save the config
             CaptureTheFlag.getInstance().getStorageManager().saveConfig();
             // Send a message to the player
-            player.sendMessage(ChatColor.GREEN + "The hub has been set!");
+            chatLogger.chatGood(player, "The hub has been set!");
         } else {
             // Send a message to the console
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Only players can use this command!");

@@ -8,8 +8,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.pippeloo.capturetheflag.CaptureTheFlag;
+import org.pippeloo.capturetheflag.chat.ChatLogger;
 
 public class HubCommand implements CommandExecutor {
+    private final ChatLogger chatLogger;
+
+    public HubCommand() {
+        this.chatLogger = CaptureTheFlag.getInstance().getChatLogger();
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // Check if a player is sending the command
@@ -21,14 +28,14 @@ public class HubCommand implements CommandExecutor {
             // Check if the location is null
             if (location == null) {
                 // Send a message to the player
-                player.sendMessage(ChatColor.RED + "The hub has not been set!");
+                chatLogger.chatBad(player, "The hub has not been set!");
                 // Return true to indicate that the command was successful
                 return true;
             }
             // Teleport the player to the hub
             player.teleport(location);
             // Send a message to the player
-            player.sendMessage(ChatColor.GREEN + "Teleported to the hub!");
+            chatLogger.chatGood(player, "Teleported to the hub!");
         } else {
             // Send a message to the console
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Only players can use this command!");

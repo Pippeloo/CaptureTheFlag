@@ -9,36 +9,50 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.pippeloo.capturetheflag.CaptureTheFlag;
+import org.pippeloo.capturetheflag.chat.ChatLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class CaptureTheFlagCommand implements CommandExecutor, TabCompleter {
+
+    private final ChatLogger chatLogger;
+
+    public CaptureTheFlagCommand() {
+        this.chatLogger = CaptureTheFlag.getInstance().getChatLogger();
+    }
+
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // Check if a player is sending the command
         if (sender instanceof Player) {
             // Get the first argument
             String firstArgument = args[0];
+            // Get the second argument
+            String secondArgument = args[1];
             // Cast the sender to a player
             Player player = (Player) sender;
 
             // Check if the argument is "setBlueSpawn"
-            if (Objects.equals(firstArgument, "setBlueSpawn")) {
-                // Call the setBlueSpawn method
-                setBlueSpawn(player);
+            if (Objects.equals(firstArgument, "setSpawn")) {
+                verifyAndExecuteFunction(player, secondArgument, "setSpawn");
             }
 
-            // Check if the argument is "setRedSpawn"
-            else if (Objects.equals(firstArgument, "setRedSpawn")) {
-                // Call the setRedSpawn method
-                setRedSpawn(player);
+            // Check if the argument is "setBlueEntrance"
+            else if (Objects.equals(firstArgument, "setEntrance")) {
+                verifyAndExecuteFunction(player, secondArgument, "setEntrance");
+            }
+
+            // Check if the argument is "setBlueFlag"
+            else if (Objects.equals(firstArgument, "setFlag")) {
+                verifyAndExecuteFunction(player, secondArgument, "setFlag");
             }
 
             else {
                 // Send a message to the player
-                player.sendMessage(ChatColor.RED + "Invalid argument: " + firstArgument);
+                chatLogger.chatBad(player, "Invalid argument: " + firstArgument);
             }
 
         } else {
@@ -55,31 +69,83 @@ public class CaptureTheFlagCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             // Provide suggestions for the first argument
             List<String> suggestions = new ArrayList<>();
-            suggestions.add("setBlueSpawn");
-            suggestions.add("setRedSpawn");
+            suggestions.add("setSpawn");
+            suggestions.add("setEntrance");
+            suggestions.add("setFlag");
+            return suggestions;
+        }
+
+        if (args.length == 2) {
+            // Provide suggestions for the second argument
+            List<String> suggestions = new ArrayList<>();
+            suggestions.add("blue");
+            suggestions.add("red");
             return suggestions;
         }
         // Return an empty list for other argument completions
         return new ArrayList<>();
     }
 
-    private void setBlueSpawn(Player player) {
-        // Get the player's location and save it to the config
-        Location location = player.getLocation();
-        CaptureTheFlag.getInstance().getStorageManager().getConfig().set("blueSpawn", location);
-        // Save the config
-        CaptureTheFlag.getInstance().getStorageManager().saveConfig();
-        // Send a message to the player
-        player.sendMessage(ChatColor.GREEN + "The blue spawn has been set!");
+    private void verifyAndExecuteFunction(Player player, String team, String function) {
+        if (isTeam(team)) {
+            switch (function) {
+                case "setSpawn":
+                    setSpawn(player, team);
+                    break;
+                case "setEntrance":
+                    setEntrance(player, team);
+                    break;
+                case "setFlag":
+                    setFlag(player, team);
+                    break;
+                default:
+                    chatLogger.chatBad(player, "Invalid function: " + function);
+                    break;
+            }
+        } else {
+            chatLogger.chatBad(player, "Invalid team: " + team);
+        }
     }
 
-    private void setRedSpawn(Player player) {
+    private void setSpawn(Player player, String team) {
         // Get the player's location and save it to the config
         Location location = player.getLocation();
-        CaptureTheFlag.getInstance().getStorageManager().getConfig().set("redSpawn", location);
+
+        String teamSpawn = team + "Spawn";
+        CaptureTheFlag.getInstance().getStorageManager().getConfig().set(teamSpawn, location);
         // Save the config
         CaptureTheFlag.getInstance().getStorageManager().saveConfig();
+
         // Send a message to the player
-        player.sendMessage(ChatColor.GREEN + "The red spawn has been set!");
+        chatLogger.chatGood(player, "The spawn for team " + team + " has been set!");
+    }
+
+    private void setEntrance(Player player, String team) {
+        // Get the player's location and save it to the config
+        Location location = player.getLocation();
+
+        String teamEntrance = team + "Entrance";
+        CaptureTheFlag.getInstance().getStorageManager().getConfig().set(teamEntrance, location);
+        // Save the config
+        CaptureTheFlag.getInstance().getStorageManager().saveConfig();
+
+        // Send a message to the player
+        chatLogger.chatGood(player, "The entrance for team " + team + " has been set!");
+    }
+    private void setFlag(Player player, String team) {
+        // Get the player's location and save it to the config
+        Location location = player.getLocation();
+
+        String teamFlag = team + "Flag";
+        CaptureTheFlag.getInstance().getStorageManager().getConfig().set(teamFlag, location);
+        // Save the config
+        CaptureTheFlag.getInstance().getStorageManager().saveConfig();
+
+        // Send a message to the player
+        chatLogger.chatGood(player, "The flag for team " + team + " has been set!");
+    }
+
+    private Boolean isTeam(String team) {
+        return Objects.equals(team, "blue") || Objects.equals(team, "red");
     }
 }
